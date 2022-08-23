@@ -21,7 +21,7 @@ The following is needed to run the script. I have not included them in the repos
 - Excel results spreadsheet
 
 ## General Steps to Follow as SOTW Admin
-1) Clone this repository to your computer (if not already).
+1) Clone this repository to your computer (if not done already).
 2) Create Google Forms survey for this week's SOTW competition.
 3) After creating Google Forms survey, click within Forms to create Google Sheets spreadsheet for responses.
 4) Make sure Python IDE file directory is pointing to folder with sotw.py.
