@@ -1,28 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-PROGRAM: sotw_update.py
+PROGRAM: sotw.py
 USAGE: Calculates and documents scores and winner of Song of the Week (SOTW) competition.
 AUTHOR: D. Joseph
 CREATED ON: Fri Aug 20 15:59:23 2021
 """
-
-#########################################
-# GENERAL STEPS TO FOLLOW AS SOTW ADMIN #
-#########################################
-
-#1 Create Google Forms survey for this week's SOTW competition.
-#2 After creating Google Forms survey, click within Forms to create Google Sheets spreadsheet for responses.
-#3 Make sure Python IDE file directory is pointing to folder with sotw.py file.
-#4 Change date in filename of SOTW Excel file to be date of competition.
-#5 Run # IMPORT MODULES # portion of script.
-#6 Update/run # CONSIDER UPDATING THESE VARIABLES PRIOR TO EACH SOTW # portion of program.
-#7 Run program through creation of sotw_sn and check if Google Forms & Spotify song names match.
-#8 Continue running program until right before # CREATE TOTAL POINTS ROW TO APPEND TO ALL-TIME RESULTS SHEET portion and make sure results make sense by looking at printed text in iPython console and also looking at sotw_points DataFrame.
-#9 Run rest of program.
-#10 Open updated Excel file and sort "All-Time Wins", "All-Time Points", "Points Per Submission", & "Percentage of Available Total Points" tables in "All-Time Results" sheet.
-#11 Write SOTW results email and attach SOTW Excel file.
-#12 Add winning song to "NERA SOTW CHAMPS" Spotify playlist.
-#13 Create duplicate of Google Forms survey for next week and close this week's survey.
 
 ##################
 # IMPORT MODULES #
@@ -46,12 +28,12 @@ from os import path
 ########################################################
 
 year = 2022 #year of competition
-month = 6 #month of competition
-day = 24 #day of competition
-excel_row_old_num = 197 #last populated row in "All-Time Results" tab of Excel results spreadsheet
-sp_uri = 'spotify:playlist:324eKKQYHqoety3UmvfGUZ' #path to Spotify playlist
+month = 8 #month of competition
+day = 12 #day of competition
+excel_row_old_num = 203 #last populated row in "All-Time Results" tab of Excel results spreadsheet
+sp_uri = config.sp_uri #path to Spotify playlist; contained in config.py file so that any potentially sensitive information is not pushed to Github
 offset = 0 #start position of where to read in songs from the playlist, where offset = 0 would read in most recently submitted song, offset = 1 would start read in at song #2 in playlist, etc.; in most cases offset will equal 0
-song_count = 10 #number of submitted songs for the week
+song_count = 9 #number of submitted songs for the week
 pl_start_pos = 0 + offset #see comment next to creation of offset variable
 pl_end_pos =  pl_start_pos + song_count #end position of where to read in songs from the playlist; any non-continuous subset of songs to be read in would need to be hard-coded
 DATA_DIR = config.DATA_DIR_name #filepath of folder containing Excel results spreadsheet; contained in config.py file so that any potentially sensitive information is not pushed to Github
@@ -189,6 +171,7 @@ sotw_sn = sotw_copy.copy()
 sotw_sn.columns = song_names
 
 sotw_sn = sotw_sn.rename(columns = songs_submitter) #use songs_submitter dictionary to convert column names to be submitter names rather than song names
+#comment to indicate that if need be, this would be a good spot to hard code the fix to reconcile mismatched song names between Spotify and Google Forms
 sotw_sn.drop(columns=[col for col in sotw_sn if col not in submitters], inplace=True)  #drop unnecessary columns
 sotw_sn = sotw_sn.T #transpose DataFrame so that submitters correspond to rows rather than columns (and votes correspond with columns rather than rows)
 
@@ -303,9 +286,9 @@ for col, val in zip(ws2_col1,ws2_val1):
 
     
 #DEFAULT IS COMMENTED OUT: HARD CODE TO TEMPORARILY FIX FOR PREVIOUS THREE SINGLE QUOTE MESSAGE'''
-
-#sotw_points_tp['<Participant Name>.'] = int() #then have to change 0 to missing manually in Excel spreadsheet
-
+'''
+sotw_points_tp["<Participant Name"] = int() #then have to change 0 to missing manually in Excel spreadsheet
+'''
 
 
 
